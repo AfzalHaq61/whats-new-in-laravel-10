@@ -37,3 +37,10 @@ str()->password(10)
 
 if you want to disable numbers
 str()->password(10, numbers: false)
+
+3-Video (Quicker Project Scaffolding)
+you can install laravel with breeze directly jsut one command and you project is made
+
+laravel new laravel10 --pest --breeze
+
+Due to pest command the test file will be differnet it will be pest files and it like javascript
