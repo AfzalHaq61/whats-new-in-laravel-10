@@ -25,3 +25,15 @@ protected function schedule(Schedule $schedule)
  //
 }
 
+2-Video (Generate Secure Passwords)
+
+Now you can generate secure password thriugh str and it will be customized
+
+you can use this command
+Illuminate\Support\str::password()
+
+you can also generate password like this and also pass length to it it will generate password of 10 length
+str()->password(10)
+
+if you want to disable numbers
+str()->password(10, numbers: false)
