@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Process;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,36 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Artisan::command('npm', function () {
+
+    $process = Process::start('npm run build');
+
+    while($process->running()) {
+        $this->info('working....');
+
+        sleep(1);
+    }
+
+    $process->wait();
+
+    $this->info('All Done!');
+});
+
+Artisan::command('fake', function () {
+
+    Process::fake(['git log' => 'git fake log']);
+
+    $this->info(Process::run('git log')->output());
+    $this->info(Process::run('npm run build')->output());
+
+});
+
+Artisan::command('test', function () {
+
+    Process::fake(['git log' => 'git fake log']);
+
+    Process::run('git log');
+
+    Process::assertRanTimes('npm run build');
+
+});

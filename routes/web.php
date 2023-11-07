@@ -6,6 +6,7 @@ use App\Enums\PostState;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Process;
 use App\Http\Controllers\PostController;
 
 /*
@@ -20,6 +21,6 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+    return 'hello';
+});
 
