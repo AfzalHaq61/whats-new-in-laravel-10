@@ -116,3 +116,90 @@ Artisan::command('test', function () {
 
 });
 
+5-Video (Laravel Pennant)
+
+Its a first party package beacuse its not with laravel installation. but it is made by laravel core team. you can install it as a package.
+
+here is a command.
+composer require laravel/pennant
+
+publish its files
+php artisan vendor:publish
+
+php artisan migrate
+
+// it will add one table feature table which will maintain projects flags.
+// when you want to show some fetures/code/sections of your projects to the some specific users or some pages of the project to the some specific users we can use pennant for it.
+
+// added this funciton to user model if the user id is 1 this function will return 1 else 0
+public function isAdmin() {
+    // $this directly take user
+    return $this->id == 1;
+
+    //if you want to pass multiple ids
+    return in_array($this->id, [1, 2]);
+
+}
+
+// add this to app service provider. define new-design for user when the user is admin this will return 1 else 0
+public function boot(): void
+{
+    Feature::define('new-design', function(User $user) {
+        return $user->isAdmin();
+    });
+}
+
+// When we define it then we can use it like that. if the user is admin then it will be hsown other wise not
+@feature('new-design')
+    <!-- Styles -->
+    <style>
+        website styling
+    </style>
+@endfeature
+
+// This will be add a row to feature table in database for the user. and the row will be added when this code is run. if the it give access then it will be true else false.
+
+// you can login user like this in web page of the routes without register login page. just write these codes
+
+it have no session jsut login one time
+auth()->onceUsingId(2);
+
+it will proper login having sessions and cookies.
+auth()->loginUsingId(1);
+
+// we can make lottery for it like this. when this is call generate a lottery it will 75% return 1 else 0.
+Feature::define('dashboard-v2', function() {
+    return Lottery::odds(3/4);
+});
+
+// make routes
+Route::get('/dash', function () {
+    // if the feature return 1 then it will go to the new dshbord routes else old dashbaord routes
+    if(Feature::active('dashboard-v2')) {
+        return redirect('/new-dashboard');
+    }
+
+    return 'dashboard';
+});
+
+
+Route::get('/new-dashboard', function () {
+    return 'new-dashboard';
+});
+
+
+// we can use it in middelware just define it in middleware aliases like this
+'feature' => EnsureFeaturesAreActive::class
+
+just add middle ware liek this and add name of the feature after:
+Route::get('/new-dashboard', function () {
+    return 'new-dashboard';
+})->middleware('feature:dashboard-v2');
+
+if you want some pages not to access to everyown just add this middle ware
+
+
+
+
+
+

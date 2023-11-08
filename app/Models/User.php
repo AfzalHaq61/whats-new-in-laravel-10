@@ -64,4 +64,8 @@ class User extends Authenticatable
             set: fn($value) => strtolower($value)
         );
     }
+
+    public function isAdmin() {
+        return in_array($this->id, [1, 2]);
+    }
 }
